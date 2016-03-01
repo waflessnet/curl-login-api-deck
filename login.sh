@@ -48,10 +48,14 @@ echo "OAUTH_TOKEN = $OAUTH_TOKEN"
 echo "LANG = $LANG"
 #login con twitter.
 echo "2"
-curl  -X POST  --data "authenticity_token=$AUTHENTICITY_TOKEN&redirect_after_login=$REDIRECT_AFTER_LOGIN&oauth_token=$OAUTH_TOKEN&lang=$LANG&session[username_or_email]=$USER&session[password]=$PASSWORD&submit=&$SUBMIT" -A "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/65    33.18.5" -L $ACTION -b cookies.txt >redireccion.html
+curl  -X POST  --data "authenticity_token=$AUTHENTICITY_TOKEN&redirect_after_login=$REDIRECT_AFTER_LOGIN&oauth_token=$OAUTH_TOKEN&lang=$LANG&session[username_or_email]=$USER&session[password]=$PASSWORD&submit=&$SUBMIT" -A "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/65    33.18.5"  $ACTION -b cookies.txt >redireccion.html
 
 #login en plataforma
 echo "3"
 URL_PLATAFORMA=$(grep -i 'href=' redireccion.html | grep -oE "(\href=\".*\")" | grep -i oauth_verifier | sed 's/href=//g' | tr -d '"')
+if [ "$URL_PLATAFORMA" == "" ] ; then
+  echo "Al parecer clave : $PASSWORD no es del usuario $USER"  
+else 
 curl -X GET $URL_PLATAFORMA -b cookiesSmdeck.txt > salida.html
+fi
 

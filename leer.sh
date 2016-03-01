@@ -1,7 +1,7 @@
-
+#!/bin/bash
 for dir in decks/*.txt; do
-DECK=$( echo $dir | tr -d ".txt" | sed "s/decks\///g")
-	echo "revinculando deck :'$DECK'"
+DECK=$( echo "$dir" | sed "s/\.txt//g" | sed "s/decks\///g")
+ 	echo "revinculando deck :$DECK"
 	while read  p; do
 		#echo " revinculando : $p"
 		USER=$( echo $p | awk '{printf $1}')
